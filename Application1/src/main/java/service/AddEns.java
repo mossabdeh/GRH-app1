@@ -86,16 +86,12 @@ public class AddEns extends HttpServlet {
         // Extract the sequential number from the last Matricule
         long sequentialNumber = extractSequentialNumber(lastMatricule);
 
-        // Get the highest sequential number for the given year
-        long highestSequentialNumber = enseignantDAO.getHighestSequentialNumber(recruitmentYear);
+        // Increment the sequential number if necessary
+        sequentialNumber = Math.max(sequentialNumber + 1, enseignantDAO.getHighestSequentialNumber(recruitmentYear) + 1);
 
-        // Keep incrementing the sequential number until a unique Matricule is found
-        while (enseignantDAO.doesMatriculeExist(MatriculeGenerator.generateMatricule(recruitmentYear, highestSequentialNumber))) {
-            highestSequentialNumber++;
-        }
-
-        return MatriculeGenerator.generateMatricule(recruitmentYear, highestSequentialNumber);
+        return MatriculeGenerator.generateMatricule(recruitmentYear, sequentialNumber);
     }
+
 
     // Utility method to extract the sequential number from a Matricule
     private long extractSequentialNumber(Long matricule) {

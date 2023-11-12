@@ -8,7 +8,23 @@ public class MatriculeGenerator {
     private static final Map<Integer, Long> yearToSequentialNumberMap = new HashMap<>();
     private static final Object lock = new Object();
 
-    // Method to generate a unique Matricule as a Long
+    public static synchronized Long generateMatricule(int year) {
+        synchronized (lock) {
+            // Get the last used sequential number for the given year
+            long lastSequentialNumber = yearToSequentialNumberMap.getOrDefault(year, 0L);
+
+            // Increment the last used sequential number
+            lastSequentialNumber++;
+
+            // Update the map with the new sequential number for the year
+            yearToSequentialNumberMap.put(year, lastSequentialNumber);
+
+            // Combine the year and sequentialNumber to create a unique Long Matricule
+            return Long.parseLong(String.format("%d%04d", year, lastSequentialNumber));
+        }
+    }
+
+    // Method to generate a unique Matricule as a Long without providing a sequential number
     public static Long generateMatricule(int year, long sequentialNumber) {
         synchronized (lock) {
             // Get the last used sequential number for the given year
@@ -23,12 +39,6 @@ public class MatriculeGenerator {
             // Combine the year and sequentialNumber to create a unique Long Matricule
             return Long.parseLong(String.format("%d%04d", year, sequentialNumber));
         }
-    }
-
-    // Method to generate a unique Matricule as a Long without providing a sequential number
-    public static Long generateMatricule(int year) {
-        // Use the method above with a placeholder sequential number (1)
-        return generateMatricule(year, 1);
     }
 }
 
