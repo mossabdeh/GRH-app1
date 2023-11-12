@@ -1,0 +1,26 @@
+<!-- src/main/META-INF/persistence.xml -->
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="mossab">
+        <!-- Configure your database connection here -->
+        <properties>
+            <!-- Specify the correct JDBC URL -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/YOUR_DATABASE_NAME"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="mossab2001"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            
+            <!-- Specify the PostgreSQL dialect -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            
+            <!-- Automatically update the database schema -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            
+            <!-- Show SQL statements in the console -->
+            <property name="hibernate.show_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
