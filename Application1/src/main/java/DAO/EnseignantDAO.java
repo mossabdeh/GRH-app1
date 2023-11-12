@@ -23,28 +23,88 @@ public class EnseignantDAO {
         // Establish a database connection using the PostgreSQLJDBCConfig class
         this.connection = PostgreSQLJDBCConfig.connect();
     }
+    
+ // Method to check if a Matricule already exists in the database
+    public boolean doesMatriculeExist(Long matricule) {
+        boolean exists = false;
 
-    // Method to add an Enseignant to the database
+        // Use a SQL query to check if the Matricule exists
+        String sql = "SELECT 1 FROM enseignant WHERE Matricule = ?";
+        
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, matricule);
+            
+            ResultSet resultSet = preparedStatement.executeQuery();
+            exists = resultSet.next(); // If there's a result, the Matricule exists
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return exists;
+    }
+
+    public Long getLastMatricule(int year) {
+        Long lastMatricule = null;
+
+        // Use a SQL query to retrieve the last used Matricule for the given year
+        String sql = "SELECT MAX(Matricule) FROM enseignant WHERE EXTRACT(YEAR FROM DateRecrutement) = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                lastMatricule = resultSet.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return lastMatricule;
+    }
+
+ // Method to get the highest sequential number for a given year
+    public long getHighestSequentialNumber(int year) {
+        long highestSequentialNumber = 0;
+
+        // Use a SQL query to retrieve the highest sequential number for the given year
+        String sql = "SELECT MAX(CAST(SUBSTRING(CAST(matricule AS TEXT), 5) AS INTEGER)) " +
+                     "FROM enseignant WHERE EXTRACT(YEAR FROM DateRecrutement) = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                highestSequentialNumber = resultSet.getLong(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+
+        return highestSequentialNumber;
+    }
+
+
+
+ // Method to add an Enseignant to the database
     public void addEnseignant(Enseignant enseignant) {
-        String sql = "INSERT INTO enseignant (Nom, Prenom, Sexe, DateNaissance, LieuNaissance, " +
+        String sql = "INSERT INTO enseignant (Matricule, Nom, Prenom, Sexe, DateNaissance, LieuNaissance, " +
                      "SituationFamille, Conjoint, EnfantCharge, DateRecrutement, DiplomeRecrutement, " +
                      "DepartementAffectation, EtatActual) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             // Set values for the prepared statement using the Enseignant object
-            preparedStatement.setString(1, enseignant.getNom());
-            preparedStatement.setString(2, enseignant.getPrenom());
-            preparedStatement.setObject(3, enseignant.getSexe(), Types.OTHER); // fixed
-            preparedStatement.setDate(4, enseignant.getDateNaissace());
-            preparedStatement.setString(5, enseignant.getLieuNaissance());
-            preparedStatement.setObject(6, enseignant.getSituationFamille(), Types.OTHER); // fixed
-            preparedStatement.setString(7, enseignant.getConjoint());
-            preparedStatement.setInt(8, enseignant.getEnfantCharge());
-            preparedStatement.setDate(9, enseignant.getDateRecrutment());
-            preparedStatement.setString(10, enseignant.getDiplomeRecrutment());
-            preparedStatement.setObject(11, enseignant.getDepartementAffectation(), Types.OTHER);// fixed
-            preparedStatement.setObject(12, enseignant.getEtatActual(), Types.OTHER); // fixed
+            preparedStatement.setLong(1, enseignant.getMatricule());
+            preparedStatement.setString(2, enseignant.getNom());
+            preparedStatement.setString(3, enseignant.getPrenom());
+            preparedStatement.setObject(4, enseignant.getSexe(), Types.OTHER);
+            preparedStatement.setDate(5, enseignant.getDateNaissace());
+            preparedStatement.setString(6, enseignant.getLieuNaissance());
+            preparedStatement.setObject(7, enseignant.getSituationFamille(), Types.OTHER);
+            preparedStatement.setString(8, enseignant.getConjoint());
+            preparedStatement.setInt(9, enseignant.getEnfantCharge());
+            preparedStatement.setDate(10, enseignant.getDateRecrutment());
+            preparedStatement.setString(11, enseignant.getDiplomeRecrutment());
+            preparedStatement.setObject(12, enseignant.getDepartementAffectation(), Types.OTHER);
+            preparedStatement.setObject(13, enseignant.getEtatActual(), Types.OTHER);
 
             // Execute the SQL statement
             preparedStatement.executeUpdate();
@@ -52,6 +112,7 @@ public class EnseignantDAO {
             e.printStackTrace(); // Handle the exception appropriately
         }
     }
+
 
     // Method to get an Enseignant by Matricule
     public Enseignant getEnseignantByMatricule(Long matricule) {
