@@ -79,4 +79,14 @@
     <servlet-name>UpdateEnseignant</servlet-name>
     <url-pattern>/UpdateEnseignant</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddPromotion</display-name>
+    <servlet-name>AddPromotion</servlet-name>
+    <servlet-class>service.AddPromotion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddPromotion</servlet-name>
+    <url-pattern>/AddPromotion</url-pattern>
+  </servlet-mapping>
 </web-app>

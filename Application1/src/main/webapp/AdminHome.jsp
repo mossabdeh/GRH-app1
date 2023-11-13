@@ -64,7 +64,7 @@
             <th>Diplome Recrutment</th>
             <th>Deprt</th>
             <th>Etat</th>
-            <th colspan="2" style="text-align: center;">Actions</th>
+            <th colspan="3" style="text-align: center;">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -101,6 +101,14 @@
                    <i class="fa fa-trash" style="font-size: 10px;"></i> Delete
                   </a>
                   </td>
+                  
+                   <!-- Display Promotions button -->
+                <td>
+           <a href="PromotionServlet?matricule=<%= enseignant.getMatricule() %>" class="btn btn-info" role="button">
+            <i class="fa fa-list" style="font-size: 10px;"></i> Promotions
+             </a>
+            </td>
+
             </tr>
         <% } %>
     </tbody>
