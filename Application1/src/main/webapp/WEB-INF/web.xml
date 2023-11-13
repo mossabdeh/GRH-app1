@@ -69,4 +69,14 @@
     <servlet-name>DeleteEnseignant</servlet-name>
     <url-pattern>/DeleteEnseignant</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateEnseignant</display-name>
+    <servlet-name>UpdateEnseignant</servlet-name>
+    <servlet-class>service.UpdateEnseignant</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateEnseignant</servlet-name>
+    <url-pattern>/UpdateEnseignant</url-pattern>
+  </servlet-mapping>
 </web-app>

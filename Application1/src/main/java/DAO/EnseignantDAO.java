@@ -149,8 +149,8 @@ public class EnseignantDAO {
         }
     }
 
-    // Method to update an Enseignant
-    public void updateEnseignant(Enseignant enseignant) {
+ // Method to update an Enseignant by Matricule
+    public void updateEnseignantByMatricule(Enseignant enseignant) {
         String sql = "UPDATE enseignant SET Nom = ?, Prenom = ?, Sexe = ?, DateNaissance = ?, " +
                      "LieuNaissance = ?, SituationFamille = ?, Conjoint = ?, EnfantCharge = ?, " +
                      "DateRecrutement = ?, DiplomeRecrutement = ?, DepartementAffectation = ?, " +
@@ -160,16 +160,16 @@ public class EnseignantDAO {
             // Set values for the prepared statement using the Enseignant object
             preparedStatement.setString(1, enseignant.getNom());
             preparedStatement.setString(2, enseignant.getPrenom());
-            preparedStatement.setString(3, enseignant.getSexe().name());
+            preparedStatement.setObject(3, enseignant.getSexe(), Types.OTHER);
             preparedStatement.setDate(4, enseignant.getDateNaissace());
             preparedStatement.setString(5, enseignant.getLieuNaissance());
-            preparedStatement.setString(6, enseignant.getSituationFamille().name());
+            preparedStatement.setObject(6, enseignant.getSituationFamille(), Types.OTHER);
             preparedStatement.setString(7, enseignant.getConjoint());
             preparedStatement.setInt(8, enseignant.getEnfantCharge());
             preparedStatement.setDate(9, enseignant.getDateRecrutment());
             preparedStatement.setString(10, enseignant.getDiplomeRecrutment());
-            preparedStatement.setString(11, enseignant.getDepartementAffectation().name());
-            preparedStatement.setString(12, enseignant.getEtatActual().name());
+            preparedStatement.setObject(11, enseignant.getDepartementAffectation(), Types.OTHER);
+            preparedStatement.setObject(12, enseignant.getEtatActual(), Types.OTHER);
             preparedStatement.setLong(13, enseignant.getMatricule());
 
             // Execute the SQL statement
@@ -178,7 +178,7 @@ public class EnseignantDAO {
             e.printStackTrace(); // Handle the exception appropriately
         }
     }
-    
+
  // Method to get all enseignants from the database
     public List<Enseignant> getAllEnseignants() {
         List<Enseignant> enseignants = new ArrayList<>();

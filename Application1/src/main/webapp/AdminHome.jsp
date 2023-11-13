@@ -90,7 +90,7 @@
                 <td><%= enseignant.getEtatActual() %></td>
                 <!-- Edit button with secondary color -->
                 <td>
-                    <a href="EditEnseignant?id=<%= enseignant.getMatricule() %>" class="btn btn-secondary" role="button">
+                    <a href="UpdateEnseignant?matricule=<%= enseignant.getMatricule() %>" class="btn btn-secondary" role="button">
                         <i class="fa fa-edit" style="font-size: 10px;"></i> Edit
                     </a>
                  </td>  
