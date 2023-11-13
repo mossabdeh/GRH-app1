@@ -89,4 +89,14 @@
     <servlet-name>AddPromotion</servlet-name>
     <url-pattern>/AddPromotion</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddEchelon</display-name>
+    <servlet-name>AddEchelon</servlet-name>
+    <servlet-class>service.AddEchelon</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddEchelon</servlet-name>
+    <url-pattern>/AddEchelon</url-pattern>
+  </servlet-mapping>
 </web-app>

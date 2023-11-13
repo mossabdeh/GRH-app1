@@ -64,7 +64,7 @@
             <th>Diplome Recrutment</th>
             <th>Deprt</th>
             <th>Etat</th>
-            <th colspan="3" style="text-align: center;">Actions</th>
+            <th colspan="4" style="text-align: center;">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -109,6 +109,12 @@
              </a>
             </td>
 
+          <td>
+    <a href="EchelonServlet?matricule=<%= enseignant.getMatricule() %>" class="btn btn-info" role="button">
+        <i class="fa fa-list" style="font-size: 10px;"></i> Echelons
+    </a>
+</td>
+          
             </tr>
         <% } %>
     </tbody>
